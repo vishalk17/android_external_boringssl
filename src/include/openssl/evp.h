@@ -137,6 +137,14 @@ OPENSSL_EXPORT int EVP_PKEY_id(const EVP_PKEY *pkey);
  * |EVP_PKEY_RSA2| will be turned into |EVP_PKEY_RSA|. */
 OPENSSL_EXPORT int EVP_PKEY_type(int nid);
 
+/* Deprecated: EVP_PKEY_new_mac_key allocates a fresh |EVP_PKEY| of the given
+ * type (e.g. |EVP_PKEY_HMAC|), sets |mac_key| as the MAC key and "generates" a
+ * new key, suitable for signing. It returns the fresh |EVP_PKEY|, or NULL on
+ * error. Use |HMAC_CTX| directly instead. */
+OPENSSL_EXPORT EVP_PKEY *EVP_PKEY_new_mac_key(int type, ENGINE *engine,
+                                              const uint8_t *mac_key,
+                                              size_t mac_key_len);
+
 
 /* Getting and setting concrete public key types.
  *
@@ -168,6 +176,9 @@ OPENSSL_EXPORT EC_KEY *EVP_PKEY_get1_EC_KEY(EVP_PKEY *pkey);
 #define EVP_PKEY_RSA2 NID_rsa
 #define EVP_PKEY_DSA NID_dsa
 #define EVP_PKEY_EC NID_X9_62_id_ecPublicKey
+
+/* Deprecated: Use |HMAC_CTX| directly instead. */
+#define EVP_PKEY_HMAC NID_hmac
 
 /* EVP_PKEY_assign sets the underlying key of |pkey| to |key|, which must be of
  * the given type. The |type| argument should be one of the |EVP_PKEY_*|

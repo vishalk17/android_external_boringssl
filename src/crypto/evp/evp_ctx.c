@@ -65,9 +65,9 @@
 
 #include "internal.h"
 
-
 static const EVP_PKEY_METHOD *const evp_methods[] = {
   &rsa_pkey_meth,
+  &hmac_pkey_meth,
   &ec_pkey_meth,
 };
 
